@@ -1,0 +1,53 @@
+<html>
+<head>
+    <link rel="stylesheet" href="css_galeria.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="background">
+        <div class="navigationTable">
+            <a href="index.html">Strona startowa</a>
+            <a href="poznaj.html">Poznaj nasze żółwie</a>
+            <a href="historia.html">Historia hodowli</a>
+            <a href="opis.html">O nas</a>
+            <a href="kontakt.html">Kontakt</a>
+        </div>
+        <div class="title">
+            <h1>Poniżej jest galeria zdjęć naszych żółwi</h1>
+            <h2>Naciśnij na zdjęcie aby je powiększyć, naciśnij podwójnie aby anulować</h2>
+        </div>
+        <div class="content">
+            <img src="tutel3.jpg" class="photo"/>
+            <img src="tutel4.jpg" class="photo"/>
+            <img src="tutel5.jpg" class="photo"/>
+            <img src="tutel6.jpg" class="photo"/>
+            <img src="tutel7.jpg" class="photo"/>
+            <img src="tutel8.jpg" class="photo"/>
+            <img src="tutel9.jpg" class="photo"/>
+            <img src="tutel10.jpg" class="photo"/>
+            <img src="tutel11.jpg" class="photo"/>
+            <img src="tutel12.jpg" class="photo"/>
+            <img src="tutel13.jpg" class="photo"/>
+            <img src="tutel14.jpg" class="photo"/>
+            <img src="tutel15.jpg" class="photo"/>
+            <script>
+
+			    $(".photo").on({
+				    "click": function () {
+                        $(this).animate({
+                            width: "50vw",
+                            height: "70vh",
+					    }, 800);
+				    },
+				    "dblclick": function () {
+					    $(this).animate({
+                            width: "358px",
+                            height: "280px",
+					    }, 800);
+				    }
+			    });
+            </script>
+        </div>
+    </div>
+</body>
+</html>
