@@ -1,6 +1,3 @@
-<html>
-<head>
-</head>
 	
 <?php
 require('cfg.php');
@@ -27,5 +24,3 @@ $nr_indeksu = "169246";
 $nrGrupy = "2";
 echo "Autor: Cezary Ignaszewski ".$nr_indeksu." grupa ".$nrGrupy."<br/><br/>";
 ?>
-
-</html>
