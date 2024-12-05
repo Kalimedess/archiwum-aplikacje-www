@@ -3,6 +3,7 @@
 require('cfg.php');
 require('admin/admin.php');
 include('showpage.php');
+include('contact.php');
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 
@@ -11,6 +12,8 @@ session_start();
 if(isset($_COOKIE["login"])){
 	ob_clean();
 	ListaPodstron($link);
+	
+	//todo: dodać podstronę do wysyłania maili aby wykorzystać wszystkie funkcje z contact.php
 }else{
 	print(FormularzLogowania());
 	if(isset($_POST["x1_submit"])){
@@ -22,6 +25,13 @@ if(isset($_COOKIE["login"])){
 			ob_clean();	
 			echo "złe dane logowania, spróbuj ponownie<br/>";
 			print(FormularzLogowania());
+		}
+	}
+	if(isset($_POST["x2_submit"])){
+		ob_clean();
+		print(KontaktHaslo());
+		if(isset($_POST['email'])){
+			PrzypomnijHaslo($_POST['email'],$pass);
 		}
 	}
 }

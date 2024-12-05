@@ -9,6 +9,7 @@ function FormularzLogowania(){
 	<tr><td class="log4_t">[email]</td><td><input type="test" name="login_email" class="logowanie" /></td></tr>
 	<tr><td class="log4_t">[haslo]</td><td><input type="password" name="login_pass" class="logowanie" /></td></tr>
 	<tr><td>&nbsp; </td><td><input type="submit" name="x1_submit" class="logowanie" value="Zaloguj" /></td></tr>
+	<tr><td>&nbsp; </td><td><input type="submit" name="x2_submit" class="logowanie" value="Zapomnialem hasla" /></td></tr>
 	</table>
 	</form>
 	</div>
@@ -25,7 +26,7 @@ function ListaPodstron($database){
 	while($row = mysqli_fetch_array($result)){
 		echo $row['id'].' '.$row['page_title'].'<br />
 		<button type="submit" name="edit_submit" value="'.$row['id'].'">edytuj</button>
-		<button type="submit" name="del_submit" value="'.$row['id'].'">usuñ</button><br/>';
+		<button type="submit" name="del_submit" value="'.$row['id'].'">usuï¿½</button><br/>';
 	}
 		echo '</form>';
 }
@@ -40,7 +41,7 @@ function EdytujPodstrone($database, $subpage_id){
 	<form method="POST" name="editing_form">
 	<input type="text" name="tytul" value='.$page['page_title'].'></input><br/>
 	<textarea name="html">'.$page['page_content'].'</textarea><br/>
-	<input type="checkbox" name="is_active">Czy ta strona ma byæ stron¹ aktywn¹?</input><br/>
+	<input type="checkbox" name="is_active">Czy ta strona ma byï¿½ stronï¿½ aktywnï¿½?</input><br/>
 	<button type="submit" name="end_edit" value="'.$subpage_id.'">Zapisz zmiany</button>
 	</form>
 ');
@@ -55,7 +56,7 @@ function ZakonczEdytowanie($database,$subpage_id,$new_title,$new_html){
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     } else {
-        echo "B³¹d przygotowania zapytania: " . mysqli_error($database);
+        echo "Bï¿½ï¿½d przygotowania zapytania: " . mysqli_error($database);
     }
 }
 function UsunPodstrone($database, $subpage_id){
@@ -66,7 +67,7 @@ function UsunPodstrone($database, $subpage_id){
 		mysqli_stmt_execute($stmt);
 		mysqli_stmt_close($stmt);
 	}else{
-		echo "B³¹d zapytania: ".mysqli_error($database);
+		echo "Bï¿½ï¿½d zapytania: ".mysqli_error($database);
 	}
 }
 

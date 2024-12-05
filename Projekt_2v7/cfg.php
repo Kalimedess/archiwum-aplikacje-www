@@ -5,6 +5,7 @@
     $baza = 'moja_strona';
     $login = 'phpadmin';
     $pass = '1234';
+    $mail = 'kalimedesss@gmail.com';
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $link = mysqli_connect($dbhost,$dbuser,$dbpass);
