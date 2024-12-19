@@ -1,0 +1,84 @@
+<head>
+	<link rel="stylesheet" href="/Projekt_2v8/css/css_galeria.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<meta charset='utf-8'></meta>
+	<link rel="stylesheet" type="text/css" href="slick/slick.css" />
+	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
+	<link rel="stylesheet" type="text/css" href="testcss.css" />
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="slick/slick.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.content').slick({
+				infinite: true,
+                centerMode: true,
+				variableWidth: true
+			})
+		});
+	</script>
+</head>
+<body>
+	<div class="background">
+		<div class="navigationTable">
+			<a href="index.php?idp=3">Strona startowa</a>
+			<a href="index.php?idp=7">Poznaj nasze ¿ó³wie</a>
+			<a href="index.php?idp=4">Historia hodowli</a>
+			<a href="index.php?idp=6">O nas</a>
+			<a href="index.php?idp=5">Kontakt</a>
+		</div>
+		<div class="title">
+			<h1>Poni¿ej jest galeria zdjêæ naszych ¿ó³wi</h1>
+			<h2>Naciœnij na zdjêcie aby je powiêkszyæ, naciœnij podwójnie aby anulowaæ</h2>
+		</div>
+		<div class="contentBackground">
+			<div class="content">
+				<img src="/Projekt_2v8/img/tutel3.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel4.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel5.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel6.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel7.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel8.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel9.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel10.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel11.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel12.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel13.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel14.jpg" class="photo" />
+				<img src="/Projekt_2v8/img/tutel15.jpg" class="photo" />
+			</div>
+		</div>
+		<script type="text/javascript">
+
+            $(".photo").on({
+                "click": function () {
+                    var $this = $(this);  // Zmienna na klikniêty obraz
+
+                    // Ustawienie animacji zmiany rozmiaru
+                    $this.animate({
+                        width: "50vw",        // Zmiana szerokoœci na 50% szerokoœci okna
+                        height: "70vh",       // Zmiana wysokoœci na 70% wysokoœci okna
+                    }, 800, function () {
+                        // Po zakoñczeniu animacji ustawiamy pozycjê obrazu
+                        $this.css({
+                            position: "absolute",     // Pozycjonowanie obrazu wzglêdem okna
+                            top: "50%",               // Ustawienie na œrodku ekranu w pionie
+                            left: "50%",              // Ustawienie na œrodku ekranu w poziomie
+                            transform: "translate(-50%, -50%)", // Przesuniêcie obrazu o po³owê jego szerokoœci i wysokoœci
+                            zIndex: 9999,             // Ustawienie obrazu nad wszystkimi elementami
+                            pointerEvents: "none",    // Uniemo¿liwienie interakcji z obrazem (opcjonalnie)
+                        });
+                    });
+                }
+				,
+				"dblclick": function () {
+					$(this).animate({
+						width: "358px",
+						height: "280px",
+					}, 800);
+				}
+			});
+		</script>
+	</div>
+</body>

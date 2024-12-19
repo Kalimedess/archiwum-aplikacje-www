@@ -1,0 +1,23 @@
+.{
+    font-size: 12px;
+}
+body{
+    background-color: darkkhaki;
+}
+form{
+    
+    text-align: center;
+}
+input{
+    margin: 10px 0px;
+    width: 10vw;
+    height: 3vh;
+}
+a{
+    background-color: whitesmoke;
+    padding: 5px;
+    border-radius: 3px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid grey;
+}
