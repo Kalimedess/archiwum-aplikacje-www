@@ -1,6 +1,6 @@
 <html>
 <head>
-	<link rel="stylesheet" href="/Projekt_2v9/css/css_shop.css">
+	<link rel="stylesheet" href="/Projekt_2v8/css/css_shop.css">
 	<meta charset='utf-8'></meta>
 </head>
 <body>
@@ -41,6 +41,7 @@
 					foreach ($queryParams as $key => $value) {
 						if($key=='cathegory'){
 							$cathegoryvalue=$value;
+							echo $cathegoryvalue;
 							break;
 						}
 						}
@@ -117,16 +118,8 @@
 				}
 				//Wyœwietlanie iloœci produktów w koszyku
 				if(isset($_SESSION['count'])){
-                    $items=0;
-                    for($i=1;$i<=$_SESSION['count'];$i++){
-                        if(isset($_SESSION[$i.'_0'])){
-                            $items=$items+1;
-                        }else{
-                            continue;
-                        }
-                    }
 					echo "<form method='POST'>
-					<button type='submit' name='cartcompilation'>Koszyk: ".$items."</button>
+					<button type='submit' name='cartcompilation'>Koszyk: ".$_SESSION['count']."</button>
 					</form>";
 				}
 				//Skompilowanie koszyka

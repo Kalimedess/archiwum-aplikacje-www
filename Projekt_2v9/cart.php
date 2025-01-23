@@ -44,7 +44,7 @@ function CompileCart($database){
         echo "<table class='products'><tr><th>tytul</th><th>cena brutto jednostkowa</th><th>ilosc</th><th>data dodania do koszyka</th>
 		</tr>";
         //pomin jesli index sesji nie istnieje
-        for($i=1;$i<=$_SESSION['count'];$i++){
+        for($i=1;$i<$_SESSION['count'];$i++){
             if(!isset($_SESSION[$i.'_0'])){
                 continue;
             }

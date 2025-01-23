@@ -9,6 +9,10 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 $cathegories = new CathegoryManagement($link);
 $products = new ProductManagement($link);
 
+//Znajdź obecną stronę, oblicz ilość wszystkich stron
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
+$total_pages = ceil($products->ZliczProdukty()/$products->GetPageLimit());
+
 function FormularzLogowania(){
 	$wynik='
 	<div class="logowanie">
@@ -272,15 +276,118 @@ if(isset($_COOKIE['login']) && isset($_POST['catdel'])){
 	exit;
 }
 
-if(isset($_COOKIE['login']) && isset($_POST['cathegory'])){
-	exit;
-}
-
-
-
+//Wyświetlanie drzewka kategorii
 $tree = buildCategoryTree($categories, 0);
 printCategoryTree($tree);
 
+//Dodawanie produktów
+$lastquery_product = 'SELECT * FROM products ORDER BY id DESC LIMIT 1';
+$lastresult_product = mysqli_query($link, $lastquery_product);
+$newindex_product = mysqli_fetch_assoc($lastresult_product)['id']+1;
+echo "<form method='POST'>";
+echo "<button name='productadd' value='".$newindex_product."'>Dodaj nowy produkt</button>";
+echo "</form>";
+
+if(isset($_COOKIE['login']) && isset($_POST['productadd'])){
+	echo '<form method="POST">
+        <label for="nazwa">Nazwa produktu:</label><br>
+        <input type="text" id="nazwa" name="product_tytul_add"><br><br>
+            
+        <label for="Kategoria">ID kategorii:</label><br>
+        <input type="text" id="kategoria" name="product_kategoria_add"><br><br>
+            
+        <button type="submit" name="end_productadd" value="'.$newindex.'">Zapisz produkt</button>
+    </form>'; 
+}
+
+//koniec dodawania produktu
+if(isset($_COOKIE['login']) && isset($_POST['end_productadd'])){
+	$cathegory_check = $cathegories->ZnajdzIDKategorii($_POST['product_tytul_add'],$_POST['product_kategoria_add']);
+	if(!empty($cathegory_check)){
+		echo "błąd dodawania produktu, istnieje juz produkt z takim tytulem w tej kategorii";
+		return;
+	}else{
+		$products->DodajProdukt($_POST['product_tytul_add'],$_POST['product_kategoria_add']);
+		header('Refresh: 0, url=admin.php');
+		exit;
+	}
+}
+
+
+//Wyświetlanie produktów
+$productarray=$products->PokazProduktyAlt($productPage);
+echo "<table>";
+foreach($productarray as $product){
+	echo "<tr>";
+	echo "<th><form method='POST'><button type='submit' name='productdel'>Usuń produkt</button><button type='submit' name='productedit'>Edytuj produkt</button></th>";
+	echo "<input type='hidden' name='productid' value='".$product['id']."'>";
+	echo "<th>".$product["tytul"]."</th>";
+	echo "<input type='hidden' name='producttitle' value='".$product['tytul']."'>";
+	echo "<th>".$product["opis"]."</th>";
+	echo "<th>".$product["data_utworzenia"]."</th>";
+	echo "<th>".$product["data_modyfikacji"]."</th>";
+	echo "<th>".$product["data_wygasniecia"]."</th>";
+	echo "<th>".$product["cena_netto"]."</th>";
+	echo "<input type='hidden' name='productprice' value='".$product['vat']."'>";
+	echo "<th>".$product["vat"]."</th>";
+	echo "<input type='hidden' name='productstock' value='".$product['ilosc_w_magazynie']."'>";
+	echo "<th>".$product["ilosc_w_magazynie"]."</th>";
+	echo "<input type='hidden' name='productavailable' value='".$product['dostepnosc']."'>";
+	echo "<th>".$product["dostepnosc"]."</th>";
+	echo "<input type='hidden' name='productcathegory' value='".$product['kategoria']."'>";
+	echo "<th>".$product["kategoria"]."</th>";
+	echo "<input type='hidden' name='productweight' value='".$product['gabaryt']."'>";
+	echo "<th>".$product["gabaryt"]."</th>";
+	echo "<th>".$product["zdjecie_link"]."</form></th>";
+	echo "</tr>";
+}
+echo "</table>";
+
+
+for ($i = 0; $i < $total_pages; $i++) {
+	if ($i == $page) {
+		echo "<strong>$i</strong> ";
+	} else {
+		if (isset($cathegoryvalue)){
+			echo "<a href='?page=$i&cathegory=".$cathegoryvalue."'>$i</a> ";
+		}else{
+			echo "<a href='?page=$i'>$i</a> ";
+		}
+	}
+}
+//Edytowanie produktów
+if(isset($_COOKIE['login']) && isset($_POST['productedit'])){
+	echo "<table><tr><th>tytul</th><th>opis</th><th>data modyfikacji</th><th>data konca oferty</th><th>cena netto</th><th>cena z vat</th>
+	<th>ilosc w magazynie</th><th>dostepnosc (bool)</th><th>kategoria</th><th>gabaryt</th><th>link do zdjecia</th></tr>";
+	echo "<form method='POST'>";
+	echo "<input type='hidden' name='productid' value='".$_POST['productid']."'>";
+	echo "<tr><th><input type='string' name='producttitle' value='".$product['tytul']."'></th>";
+	echo "<th><input type='string' name='productdesc' value='".$product['opis']."'></th>";
+	echo "<th><input type='date' name='productmodified' value='".time()."'></th>";
+	echo "<th><input type='date' name='productexpire' value='".$product['cena_netto']."'></th>";
+	echo "<th><input type='number' name='productnetto' value='".$product['cena_netto']."'></th>";
+	echo "<th><input type='number' name='productprice' value='".$product['vat']."'></th>";
+	echo "<th><input type='number' name='productstock' value='".$product['ilosc_w_magazynie']."'></th>";
+	echo "<th><input type='number' name='productavailable' value='".$product['dostepnosc']."'></th>";
+	echo "<th><input type='number' name='productcathegory' value='".$product['kategoria']."'></th>";
+	echo "<th><input type='number' name='productweight' value='".$product['gabaryt']."'></th>";
+	echo "<th><input type='string' name='productphoto' value='".$product['zdjecie_link']."'></th><th><button type='submit' name='productedit_end'>Zakończ edycję</button></th></tr></form></table>";
+}
+
+if(isset($_COOKIE['login']) && isset($_POST['productedit_end'])){
+	$products->EdytujProdukt($_POST['productid'], $_POST['producttitle'], $_POST['productdesc'], $_POST['productmodified'], $_POST['productexpire'], $_POST['productnetto'], $_POST['productprice'], $_POST['productstock'], $_POST['productavailable'], $_POST['productcathegory'], $_POST['productweight'], $_POST['productphoto']);
+	header('Refresh: 0, url=admin.php');
+	exit;
+}
+
+//Usuwanie produktów
+if(isset($_COOKIE['login']) && isset($_POST['productdel'])){
+	$products->UsunProdukt($_POST['producttitle'],$_POST['productcathegory']);
+	header('Refresh: 0, url=admin.php');
+	exit;
+}
+
+echo "<br>";
 $nr_indeksu = "169246";
 $nrGrupy = "2";
 echo "Autor: Cezary Ignaszewski ".$nr_indeksu." grupa ".$nrGrupy."<br/><br/>";
